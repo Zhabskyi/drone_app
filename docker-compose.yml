@@ -1,0 +1,28 @@
+version: '3'
+services:
+  dron_back:
+    build:
+      context: ./back-end/
+    depends_on:
+      - mysql
+    volumes:
+      - "./back-end:/code"
+    ports:
+      - "9002:9002"
+
+  dron_front:
+    build:
+      context: ./front-end/
+    # environment:
+    #   - NODE_PATH=/code/front-end/node_modules
+    volumes:
+      - "./front-end:/home"
+    ports:
+      - "9001:3000"  
+
+
+  mysql:
+    image: mysql:latest 
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: 123

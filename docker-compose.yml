@@ -1,25 +1,28 @@
 version: '3'
 services:
-  dron_back:
+  drone_back:
     build:
-      context: ./back-end/
+      context: ./back/docker
     depends_on:
       - mysql
     volumes:
-      - "./back-end:/code"
+      - ./back:/code
     ports:
       - "9002:9002"
+    links:
+      - mysql
 
-  dron_front:
+  drone_front:
     build:
-      context: ./front-end/
-    # environment:
-    #   - NODE_PATH=/code/front-end/node_modules
+      context: ./front/
+    environment:
+      - NODE_ENV=development
     volumes:
-      - "./front-end:/home"
+      - ./front:/code
     ports:
-      - "9001:3000"  
-
+      - "9001:3000"
+    links:
+      - drone_back
 
   mysql:
     image: mysql:latest 
